@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scoreado xzzz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --panel:#151515;
+      --red:#ff003c;
+      --red-soft:rgba(255,0,60,.35);
+      --green:#00ff9d;
+      --line:#262626;
+      --muted:#9aa0a6;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Share Tech Mono", monospace;
+      background:var(--bg);
+      color:var(--green);
+      overflow-x:hidden;
+    }
+
+    #loading{
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      background:var(--bg);
+      color:var(--red);
+      z-index:9999;
+    }
+    .loading-wrap{
+      border:1px solid var(--red);
+      padding:14px 18px;
+      border-radius:8px;
+      box-shadow:0 0 18px var(--red-soft);
+      display:flex; gap:10px; align-items:center;
+    }
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1.2s infinite ease-in-out;}
+    .dot:nth-child(2){animation-delay:.15s}
+    .dot:nth-child(3){animation-delay:.30s}
+    @keyframes blink{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+
+    #particles-js{position:fixed; inset:0; z-index:-1;}
+
+    header{padding:28px 16px 10px;text-align:center;}
+    .brand{
+      display:inline-block;
+      font-size:1.05rem;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:transparent;
+      background:linear-gradient(90deg, rgba(255,0,60,.2) 0%, #fff 50%, rgba(255,0,60,.2) 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      filter:drop-shadow(0 0 6px rgba(255,0,60,.55));
+      background-size:200% 100%;
+      animation:sweep 3.2s linear infinite;
+    }
+    @keyframes sweep{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    .tagline{margin-top:6px;color:var(--muted);font-size:.85rem;letter-spacing:1px;}
+
+    .wrap{width:95%;max-width:1080px;margin:0 auto 60px;padding:10px 0;}
+    .hack-box{
+      background:linear-gradient(180deg, rgba(21,21,21,.95) 0%, rgba(14,14,14,.95) 100%);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:16px;
+      margin:18px auto;
+      box-shadow:0 0 0 1px rgba(255,0,60,.06) inset,0 0 28px rgba(255,0,60,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .hack-box::before{
+      content:"";position:absolute;inset:0;
+      background:repeating-linear-gradient(180deg,rgba(255,255,255,.02) 0px,rgba(255,255,255,.02) 1px,transparent 2px,transparent 4px);
+      pointer-events:none;
+    }
+    .hack-title{
+      color:var(--red);text-align:center;margin:0 0 12px;
+      font-size:1.1rem;letter-spacing:2px;
+      padding-bottom:8px;border-bottom:1px dashed rgba(255,0,60,.35);
+      text-transform:uppercase;
+    }
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    @media (max-width:720px){.grid-2{grid-template-columns:1fr}}
+    .hack-row{display:flex;justify-content:space-between;align-items:center;
+      padding:10px 12px;border:1px solid rgba(255,0,60,.12);
+      border-radius:8px;background:rgba(255,0,60,.04);transition:.25s ease;}
+    .hack-row:hover{border-color:rgba(255,0,60,.35);background:rgba(255,0,60,.07);}
+    .label{color:var(--red);}
+    .value{color:var(--green);font-weight:700;text-align:right;}
+
+    .whatsapp-btn{
+      display:block;text-align:center;background:rgba(0,255,157,.1);
+      color:var(--green);border:1px solid var(--green);
+      padding:10px;margin:6px 0;border-radius:8px;text-decoration:none;
+      transition:.3s;
+    }
+    .whatsapp-btn:hover{background:rgba(0,255,157,.2);}
+
+    /* Avisos como en la imagen */
+    .aviso{
+      border:1px solid var(--red);
+      background:rgba(255,0,60,.08);
+      color:var(--red);
+      padding:10px 14px;
+      border-radius:8px;
+      margin:8px 0;
+      text-align:center;
+      font-weight:bold;
+      text-transform:uppercase;
+    }
+
+    /* Modal servicios */
+    .modal{
+      display:none;
+      position:fixed;inset:0;
+      background:rgba(0,0,0,.8);
+      z-index:999;
+      align-items:center;justify-content:center;
+    }
+    .modal-content{
+      background:var(--panel);
+      border:1px solid var(--red);
+      padding:20px;
+      border-radius:10px;
+      width:90%;max-width:420px;
+      text-align:center;
+    }
+    .modal h3{color:var(--red);margin-bottom:12px;}
+    .modal p{margin:6px 0;color:var(--green);}
+    .close-btn{
+      background:var(--red);color:#fff;
+      border:none;padding:8px 14px;
+      border-radius:6px;cursor:pointer;
+      margin-top:12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="loading-wrap">
+      <span>[ Verificando equipo Scoreado xzzz ]</span>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </div>
+  <div id="particles-js"></div>
+
+  <div id="main" style="display:none;">
+    <header>
+      <div class="brand">Scoreado xzzz</div>
+      <div class="tagline">Unidad de Investigación Digital & Seguridad</div>
+    </header>
+
+    <div class="wrap">
+      <section class="hack-box">
+        <h2 class="hack-title">[INFORMACION MOVIL]</h2>
+        <div class="grid-2">
+          <div class="hack-row"><span class="label">Propietario</span><span class="value">Gregorio Burgos</span></div>
+          <div class="hack-row"><span class="label">Marca</span><span class="value">Samsung</span></div>
+          <div class="hack-row"><span class="label">Modelo</span><span class="value">Galaxy A16</span></div>
+          <div class="hack-row"><span class="label">Sistema</span><span class="value">Android 14 UI</span></div>
+        </div>
+      </section>
+
+      <section class="hack-box">
+        <h2 class="hack-title">[BLOQUEO DE TRABAJO ANTERIOR]</h2>
+        <div class="grid-2">
+          <div class="hack-row"><span class="label">EMPRESA DE TRABAJO</span><span class="value">MACROPAY</span></div>
+          <div class="hack-row"><span class="label">APLICACION DE BLOQUEO</span><span class="value">BLOQUEADOR AUTOMATICO</span></div>
+        </div>
+      </section>
+
+      <section class="hack-box">
+        <h2 class="hack-title">[BLOQUEO DE TRABAJO NUEVO]</h2>
+        <div class="grid-2">
+          <div class="hack-row"><span class="label">EMPRESA DE TRABAJO</span><span class="value">Scoreado xzzz</span></div>
+          <div class="hack-row"><span class="label">APLICACION DE BLOQUEO</span><span class="value">NINGUNA</span></div>
+        </div>
+      </section>
+
+      <section class="hack-box">
+        <h2 class="hack-title">[PROCEDIMIENTOS REALIZADOS]</h2>
+        <div class="grid-2">
+          <div class="hack-row"><span class="label">ACCION</span><span class="value">LIBERACION DE EQUIPO</span></div>
+          <div class="hack-row"><span class="label">METODO</span><span class="value">RESET DATA/FRP/APPLOCK V2</span></div>
+        </div>
+      </section>
+
+      <section class="hack-box">
+        <h2 class="hack-title">[RESULTADO FINAL]</h2>
+        <div class="grid-2">
+          <div class="hack-row"><span class="label">ESTADO DEL EQUIPO</span><span class="value">FINALIZADO/ENTRGADO</span></div>
+          <div class="hack-row"><span class="label">DETALLES DEL EQUIPO</span><span class="value">EQUIPO FUNCIONANDO CORRECTAMENTE</span></div>
+        </div>
+      </section>
+
+      <div class="btn-container">
+  <button id="verifyBtn" class="verify-btn">
+    <span class="btn-text">Verificar información</span>
+  </button>
+</div>
+
+<style>
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
+
+.verify-btn {
+  position: relative;
+  padding: 14px 40px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 18px;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  background: #111;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(255, 0, 60, 0.8);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.verify-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 0, 60, 1);
+}
+
+.verify-btn .btn-text {
+  position: relative;
+  z-index: 2;
+}
+
+.verify-btn.loading .btn-text {
+  visibility: hidden;
+}
+
+.verify-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #ff003c, #ff005a, #ff003c);
+  opacity: 0.15;
+  z-index: 1;
+}
+
+.verify-btn.loading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #ff003c, #ff6a00);
+  animation: loadingBar 3s forwards;
+  z-index: 0;
+}
+
+.verify-btn.done {
+  background: #00c853;
+  box-shadow: 0 0 25px #00ff88;
+  cursor: default;
+}
+
+.verify-btn.done .btn-text {
+  visibility: visible;
+  font-weight: bold;
+}
+
+@keyframes loadingBar {
+  from { width: 0; }
+  to { width: 100%; }
+}
+</style>
+
+<script>
+const btn = document.getElementById("verifyBtn");
+const text = btn.querySelector(".btn-text");
+
+// Revisar si ya está verificado
+if (localStorage.getItem("verificado") === "true") {
+  btn.classList.add("done");
+  text.textContent = "✔ Verificado";
+} else {
+  btn.addEventListener("click", () => {
+    if (btn.classList.contains("loading")) return;
+
+    btn.classList.add("loading");
+    text.textContent = "⌛ Verificando...";
+
+    setTimeout(() => {
+      btn.classList.remove("loading");
+      btn.classList.add("done");
+      text.textContent = "✔ Verificado";
+      localStorage.setItem("verificado", "true");
+    }, 3000); // tarda 3s en "verificar"
+  });
+}
+</script>
+      
+     <!-- Aviso de Autenticidad -->
+<section class="hack-box">
+  <h2 class="hack-title">[ AVISO DE AUTENTICIDAD ]</h2>
+  <p style="color:#ff0033; font-weight:bold;">
+    No contamos con redes sociales oficiales. El contacto se realiza exclusivamente por medio del 
+    personal autorizado listado en esta página. Cualquier perfil/página con nuestro nombre es falso.
+  </p>
+  <p style="color:#ff0033; font-weight:bold;">
+    Atención en sede: Local / Oficina autorizada.
+  </p>
+</section>
+
+      <!-- Trabajadores Oficiales -->
+      <section class="hack-box">
+        <h2 class="hack-title">[ Trabajadores Oficiales ]</h2>
+        <a href="https://wa.me/5212441139413" class="whatsapp-btn" target="_blank">Scoreado xzzz</a>
+        <a href="https://wa.me/525615558316" class="whatsapp-btn" target="_blank">Uriel Díaz</a>
+        <a href="https://wa.me/52558291921470" class="whatsapp-btn" target="_blank">Samuel Tenorio</a>
+      </section>
+    </div>
+
+   <!-- Footer -->
+<footer class="footer">
+  <div class="footer-marquee">
+    <span>© 2025 Scoreado xzzz – Todos los derechos reservados.</span>
+  </div>
+</footer>
+
+<style>
+.footer {
+  width: 100%;
+  padding: 15px 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.footer-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 15s linear infinite;
+}
+
+.footer-marquee span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
+  color: #ff0033; /* Rojo neón */
+  text-shadow: 0 0 5px #ff0033, 0 0 15px #ff1a4d, 0 0 30px #ff3366;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+</style>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h3 id="modal-title"></h3>
+      <p id="modal-price"></p>
+      <p id="modal-desc"></p>
+      <button class="close-btn" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    const LOADING_MS = 2600;
+    const loading = document.getElementById("loading");
+    const main = document.getElementById("main");
+    setTimeout(()=>{ loading.style.display="none"; main.style.display="block"; }, LOADING_MS);
+
+    particlesJS("particles-js",{
+      particles:{ number:{ value:90, density:{ enable:true, value_area:900 }},
+        color:{ value:"#ff003c" }, shape:{ type:"circle" }, opacity:{ value:0.45 },
+        size:{ value:2, random:true },
+        line_linked:{ enable:true, distance:140, color:"#ff003c", opacity:0.35, width:1 },
+        move:{ enable:true, speed:1.1, out_mode:"out" }},
+      interactivity:{ detect_on:"canvas",
+        events:{ onhover:{ enable:true, mode:"grab" }, resize:true },
+        modes:{ grab:{ distance:160, line_linked:{ opacity:.6 } } } },
+      retina_detect:true
+    });
+
+    // Modal funciones
+    function openModal(title, price, desc){
+      document.getElementById("modal-title").innerText = title;
+      document.getElementById("modal-price").innerText = "Precio: " + price;
+      document.getElementById("modal-desc").innerText = desc;
+      document.getElementById("modal").style.display="flex";
+    }
+    function closeModal(){
+      document.getElementById("modal").style.display="none";
+    }
+  </script>
+</body>
+</html>
